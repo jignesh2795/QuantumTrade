@@ -1,0 +1,33 @@
+# Production docker-compose.yml
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../
+      dockerfile: docker/backend.Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+
+  frontend:
+    build:
+      context: ../
+      dockerfile: docker/frontend.Dockerfile
+    ports:
+      - "80:80"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: quantumtrade
+      POSTGRES_PASSWORD: quantumtrade
+      POSTGRES_DB: quantumtrade
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

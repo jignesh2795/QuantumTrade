@@ -1,0 +1,4 @@
+# Development environment configuration
+app_env: development
+debug: true
+log_level: debug
