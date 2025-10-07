@@ -5,7 +5,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from fastapi.testclient import TestClient
-from src.api.server import app
+from api.server import app
 
 client = TestClient(app)
 

@@ -3,14 +3,13 @@ import sys
 import os
 
 # Add the src directory to the path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-# Use relative imports
-from agents.data_agent import DataAgent
-from agents.strategy_agent import StrategyAgent
-from agents.risk_agent import RiskAgent
-from agents.portfolio import PortfolioAgent
-from agents.execution_agent import ExecutionAgent
+from src.agents.data_agent import DataAgent
+from src.agents.strategy_agent import StrategyAgent
+from src.agents.risk_agent import RiskAgent
+from src.agents.portfolio import PortfolioAgent
+from src.agents.execution_agent import ExecutionAgent
 
 def test_data_agent():
     agent = DataAgent()

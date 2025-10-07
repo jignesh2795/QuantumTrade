@@ -1,8 +1,24 @@
-FROM python:3.11-slim AS base
+# Multi-stage build for QuantumTrade backend
+FROM python:3.11-slim as base
+
+# Set working directory
 WORKDIR /app
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+  gcc \
+  postgresql-client \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY src/ src/
-CMD ["python", "src/main.py"]
+
+# Copy application code
+COPY . .
+
+# Expose port
+EXPOSE 8000
+
+# Run the application
+CMD ["uvicorn", "src.api.server:app", "--host", "0.0.0.0", "--port", "8000"]

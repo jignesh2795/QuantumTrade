@@ -1,21 +1,27 @@
 #!/bin/bash
-# Install dependencies
+
+# QuantumTrade Setup Script
+
 set -e
-echo "⚙️ Setting up QuantumTrade environment from root..."
 
-# Backend
-cd backend
-python3 -m venv venv || echo "Venv exists"
-source venv/bin/activate
-pip install -r requirements.txt
-echo "✅ Backend dependencies installed"
-cd ..
+echo "Setting up QuantumTrade platform..."
 
-# Frontend
-cd frontend
-npm install
-echo "✅ Frontend dependencies installed"
-cd ..
+# Create logs directory
+mkdir -p logs
 
-echo "✅ Setup complete! Run ./scripts/start.sh to start the application"
-echo "Or use Docker: docker-compose -f docker/docker-compose.yml up --build"
+# Copy environment file if it doesn't exist
+if [ ! -f .env ]; then
+    echo "Creating .env file from .env.example..."
+    cp .env.example .env
+fi
+
+# Setup database
+echo "Setting up database..."
+python scripts/setup/database_setup.py
+
+# Seed database with sample data
+echo "Seeding database with sample data..."
+python scripts/setup/seed_data.py
+
+echo "QuantumTrade setup completed successfully!"
+echo "To start the application, run: docker-compose up"
