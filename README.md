@@ -64,6 +64,7 @@ For detailed information about the development process, please see:
 -   Python 3.11+
 -   Node.js 18+
 -   Supabase Cloud Account (for Stage 3)
+-   Supabase Project URL: https://jstuvjquxrciaazrsedx.supabase.co
 
 ### Installation
 
@@ -81,7 +82,19 @@ For detailed information about the development process, please see:
     # Edit .env with your configuration
     ```
 
-3. Start the application:
+3. Configure Supabase (if using Supabase Cloud):
+
+    ```bash
+    # For Unix/Linux/macOS
+    bash scripts/configure_supabase.sh
+
+    # For Windows
+    scripts\configure_supabase.bat
+    ```
+
+    Update the `.env` file with your Supabase credentials from https://jstuvjquxrciaazrsedx.supabase.co
+
+4. Start the application:
     ```bash
     docker-compose up --build
     ```
@@ -160,8 +173,11 @@ GitHub Actions workflow for:
 -   [Architecture diagrams](docs/architecture/)
 -   [Development guidelines](docs/development/)
 -   [Stage 1 & 2 documentation](docs/stages/)
+-   [Stage 3.5: Supabase Auth + CI/CD](docs/stages/stage3_5.md)
 -   [Git Commit Plan](docs/git_commit_plan.md)
 -   [Git Auto Commit Scripts](docs/git_auto_commit.md)
+-   [Supabase Integration](docs/SUPABASE_INTEGRATION.md)
+-   [Supabase Configuration](docs/SUPABASE_CONFIGURATION.md)
 
 ## 🤝 Contributing
 
