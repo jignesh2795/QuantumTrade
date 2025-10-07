@@ -4,14 +4,14 @@ This stage builds directly on Stage 3, adding authentication with Supabase Auth 
 
 ## 🎯 Features Implemented
 
-| Feature | Status |
-|---------|--------|
-| Supabase Auth (email/password login) | ✅ |
-| JWT Token Verification | ✅ |
-| Protected Backend Routes | ✅ |
-| Frontend Login Page | ✅ |
-| GitHub Actions CI/CD | ✅ |
-| Docker Build & Push | ✅ |
+| Feature                              | Status |
+| ------------------------------------ | ------ |
+| Supabase Auth (email/password login) | ✅     |
+| JWT Token Verification               | ✅     |
+| Protected Backend Routes             | ✅     |
+| Frontend Login Page                  | ✅     |
+| GitHub Actions CI/CD                 | ✅     |
+| Docker Build & Push                  | ✅     |
 
 ## 🔐 1. Supabase Auth Configuration
 
@@ -25,8 +25,9 @@ This stage builds directly on Stage 3, adding authentication with Supabase Auth 
 ### Auth Settings
 
 Under **Auth → Settings**, ensure:
-- JWT Expiry is reasonable (e.g., 3600 seconds)
-- Site URL = your frontend's URL (e.g., http://localhost:5173 for development)
+
+-   JWT Expiry is reasonable (e.g., 3600 seconds)
+-   Site URL = your frontend's URL (e.g., http://localhost:5173 for development)
 
 ## ⚙️ 2. Environment Configuration
 
@@ -46,12 +47,12 @@ VITE_SUPABASE_ANON_KEY=<your_anon_key>
 File: `frontend/src/lib/supabaseClient.js`
 
 ```javascript
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 ```
 
 ### Login Page
@@ -59,37 +60,52 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 File: `frontend/src/pages/Login.jsx`
 
 ```javascript
-import { useState } from "react"
-import { supabase } from "../lib/supabaseClient"
+import { useState } from "react";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [message, setMessage] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    if (error) setMessage(error.message)
-    else setMessage("✅ Logged in successfully!")
-  }
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+        if (error) setMessage(error.message);
+        else setMessage("✅ Logged in successfully!");
+    };
 
-  return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl mb-4 font-bold">Login</h1>
-      <form onSubmit={handleLogin} className="flex flex-col gap-3">
-        <input type="email" placeholder="Email" value={email}
-          onChange={(e) => setEmail(e.target.value)} className="p-2 border rounded" />
-        <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} className="p-2 border rounded" />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded">Login</button>
-      </form>
-      {message && <p className="mt-2 text-sm">{message}</p>}
-    </div>
-  )
+    return (
+        <div className="p-6 max-w-md mx-auto">
+            <h1 className="text-2xl mb-4 font-bold">Login</h1>
+            <form onSubmit={handleLogin} className="flex flex-col gap-3">
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="p-2 border rounded"
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="p-2 border rounded"
+                />
+                <button
+                    type="submit"
+                    className="p-2 bg-blue-500 text-white rounded"
+                >
+                    Login
+                </button>
+            </form>
+            {message && <p className="mt-2 text-sm">{message}</p>}
+        </div>
+    );
 }
 ```
 
@@ -98,6 +114,7 @@ export default function Login() {
 ### Dependencies
 
 Added to `backend/requirements.txt`:
+
 ```
 python-jose==3.3.0
 ```
@@ -149,81 +166,82 @@ File: `.github/workflows/deploy.yml`
 name: QuantumTrade CI/CD
 
 on:
-  push:
-    branches:
-      - main
-      - develop
+    push:
+        branches:
+            - main
+            - develop
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:14
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: testdb
+    build:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:14
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: testdb
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
 
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          pip install -r requirements.txt
+            - name: Install backend dependencies
+              run: |
+                  cd backend
+                  pip install -r requirements.txt
 
-      - name: Run backend tests
-        run: |
-          cd backend
-          pytest --maxfail=1 --disable-warnings -q
+            - name: Run backend tests
+              run: |
+                  cd backend
+                  pytest --maxfail=1 --disable-warnings -q
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
 
-      - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm ci
+            - name: Install frontend dependencies
+              run: |
+                  cd frontend
+                  npm ci
 
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
+            - name: Build frontend
+              run: |
+                  cd frontend
+                  npm run build
 
-      - name: Docker build & push
-        if: github.ref == 'refs/heads/main'
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: jigneshbhirud/quantumtrade:latest
+            - name: Docker build & push
+              if: github.ref == 'refs/heads/main'
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  push: true
+                  tags: jigneshbhirud/quantumtrade:latest
 
-  cleanup:
-    runs-on: ubuntu-latest
-    needs: build
-    if: always()
-    
-    steps:
-      - name: Cleanup Docker cache
-        run: docker system prune -af --volumes
+    cleanup:
+        runs-on: ubuntu-latest
+        needs: build
+        if: always()
+
+        steps:
+            - name: Cleanup Docker cache
+              run: docker system prune -af --volumes
 ```
 
 ### Required GitHub Secrets
 
 For Docker Hub publishing, set these secrets in your GitHub repository:
-- `DOCKER_USERNAME`
-- `DOCKER_PASSWORD`
+
+-   `DOCKER_USERNAME`
+-   `DOCKER_PASSWORD`
 
 ## 🧾 6. Git Commit
 
@@ -236,12 +254,13 @@ git push origin develop
 ## ✅ Final Result
 
 Stage 3.5 successfully implements:
-- Supabase Cloud Database integration ✅
-- Supabase Auth (JWT) ✅
-- Backend JWT Middleware ✅
-- Frontend Auth Page ✅
-- GitHub Actions CI/CD ✅
-- Docker Build + Push ✅
-- Cleanup & version control ✅
+
+-   Supabase Cloud Database integration ✅
+-   Supabase Auth (JWT) ✅
+-   Backend JWT Middleware ✅
+-   Frontend Auth Page ✅
+-   GitHub Actions CI/CD ✅
+-   Docker Build + Push ✅
+-   Cleanup & version control ✅
 
 Users can now register or log in using Supabase directly, with JWT tokens protecting backend routes.

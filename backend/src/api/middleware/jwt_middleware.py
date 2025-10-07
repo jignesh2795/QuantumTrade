@@ -38,7 +38,7 @@ def verify_token(credentials=Depends(security)):
     if not JWT_SECRET:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Server configuration error: JWT secret not available"
+            detail="Server configuration error: JWT secret not available",
         )
 
     token = credentials.credentials
@@ -49,14 +49,13 @@ def verify_token(credentials=Depends(security)):
     except JWTError as e:
         logger.warning(f"JWT verification failed: {e}")
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token"
         )
     except Exception as e:
         logger.error(f"Unexpected error during JWT verification: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Internal server error during authentication"
+            detail="Internal server error during authentication",
         )
 
 

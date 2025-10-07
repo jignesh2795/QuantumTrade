@@ -17,6 +17,7 @@ A testing script is provided at `scripts/test_supabase_connection.py` that verif
 ### Prerequisites
 
 Make sure you have:
+
 1. Updated your `.env` file with all Supabase credentials
 2. Installed all required dependencies
 
@@ -69,6 +70,6 @@ cat .env | grep DATABASE_URL
 
 ## Security Notes
 
-- Never commit your `.env` file to version control
-- The testing script masks sensitive keys in the output
-- Regularly rotate your API keys for security
+-   Never commit your `.env` file to version control
+-   The testing script masks sensitive keys in the output
+-   Regularly rotate your API keys for security
