@@ -40,11 +40,13 @@ After running the script, update the following values in your `.env` file:
 1. Go to https://app.supabase.com/
 2. Select your project (jstuvjquxrciaazrsedx)
 3. Navigate to Settings > API
-4. Copy the required keys:
+4. Copy the required keys from the **Project API keys** section (not the legacy keys):
     - Project URL (should be https://jstuvjquxrciaazrsedx.supabase.co)
-    - Anon Key (for frontend)
-    - Service Role Key (for backend)
+    - **anon key** (for frontend - this is the public key)
+    - **service_role key** (for backend - this is the secret key with full access)
     - JWT Secret (for authentication)
+
+**Note**: Use the new API keys, not the legacy ones. The new keys provide better security and more granular permissions.
 
 ### 4. Database Connection
 

@@ -50,10 +50,12 @@ To complete the configuration, you'll need:
     - Username
     - Password
 
-2. **Supabase API Keys**:
-    - Anon Key (for frontend)
-    - Service Role Key (for backend)
+2. **Supabase API Keys** (use the new API keys, not legacy ones):
+    - **anon key** (for frontend - this is the public key)
+    - **service_role key** (for backend - this is the secret key with full access)
     - JWT Secret (for authentication)
+
+**Note**: Use the new API keys from the "Project API keys" section, not the legacy keys. The new keys provide better security and more granular permissions.
 
 ## Testing the Connection
 
