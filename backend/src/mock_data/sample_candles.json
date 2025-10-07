@@ -1,0 +1,29 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "timestamp": "2023-01-01T00:00:00Z",
+    "open": 16500.0,
+    "high": 16700.0,
+    "low": 16400.0,
+    "close": 16600.0,
+    "volume": 125000000
+  },
+  {
+    "symbol": "BTCUSDT",
+    "timestamp": "2023-01-01T01:00:00Z",
+    "open": 16600.0,
+    "high": 16800.0,
+    "low": 16550.0,
+    "close": 16750.0,
+    "volume": 130000000
+  },
+  {
+    "symbol": "BTCUSDT",
+    "timestamp": "2023-01-01T02:00:00Z",
+    "open": 16750.0,
+    "high": 16900.0,
+    "low": 16700.0,
+    "close": 16850.0,
+    "volume": 115000000
+  }
+]

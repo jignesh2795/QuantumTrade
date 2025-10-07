@@ -24,7 +24,7 @@ jobs:
       - name: Run Data Sync
         run: |
           cd backend
-          python -m src.sync.sync_service
+          python -m src.services.data.sync_service
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

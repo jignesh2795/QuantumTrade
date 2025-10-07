@@ -1,0 +1,52 @@
+name: Backend Tests
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports: ["5432:5432"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          pytest -q
+
+      - name: Run security scan
+        run: |
+          cd backend
+          pip install bandit safety
+          bandit -r src/
+          safety check
+
+      - name: Run linting
+        run: |
+          cd backend
+          pip install flake8 black
+          flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          black --check src/

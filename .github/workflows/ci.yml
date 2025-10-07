@@ -44,8 +44,7 @@ jobs:
           npm test || true
 
       - name: Build Docker images
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: false
-          tags: myorg/quantumtrade:ci-${{ github.sha }}
+        run: |
+          echo "Building Docker images for CI"
+          docker build -f docker/backend.Dockerfile -t quantumtrade-backend-ci .
+          docker build -f docker/frontend.Dockerfile -t quantumtrade-frontend-ci .

@@ -1,5 +1,3 @@
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from "./useAuthContext.js";
 
-export function useAuth() {
-  return useAuth();
-}
+export { useAuth };

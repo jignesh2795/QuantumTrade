@@ -1,0 +1,30 @@
+[
+  {
+    "name": "MovingAverageCrossover",
+    "description": "Simple moving average crossover strategy",
+    "parameters": {
+      "fast_period": 10,
+      "slow_period": 20
+    },
+    "is_active": true
+  },
+  {
+    "name": "RSIReversal",
+    "description": "RSI mean reversion strategy",
+    "parameters": {
+      "rsi_period": 14,
+      "overbought": 70,
+      "oversold": 30
+    },
+    "is_active": true
+  },
+  {
+    "name": "BollingerBands",
+    "description": "Bollinger Bands mean reversion strategy",
+    "parameters": {
+      "period": 20,
+      "std_dev": 2
+    },
+    "is_active": false
+  }
+]
