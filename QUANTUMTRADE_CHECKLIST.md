@@ -68,6 +68,8 @@ git push -u origin main
 | ✅ | Setup docs/ with setup, API, architecture, deployment, troubleshooting guides | |
 | ✅ | Initialize Git repo and create main/develop branches | |
 | ✅ | Setup .gitignore | |
+| ✅ | Create Git auto-commit scripts for automated stage-based commits | |
+| ✅ | Document Git commit plan and best practices | |
 | ✅ | Optional: Add sample AI agent and trading logic placeholders | |
 | ✅ | Optional: Add test folders with unit/integration/fixtures placeholders | |
 | ✅ | Optional: Add logging/monitoring configuration (logs/, prometheus, etc.) | |
@@ -99,6 +101,11 @@ chmod +x setup_quantumtrade.sh
 - `feat: add strategy_agent placeholder`
 - `fix: correct API route /agents`
 - `chore: update Dockerfile with cached volumes`
+
+### Automated Commits:
+Use the provided auto-commit scripts to automatically detect changes by stage and create appropriate commits:
+- Unix/Linux/macOS: `bash scripts/git_auto_commit.sh`
+- Windows: `scripts\git_auto_commit.bat`
 
 ### Versioning:
 Tag releases:
@@ -149,4 +156,5 @@ This ensures:
 - Full folder + file structure
 - Dependencies installed & cached
 - Git version control initialized
+- Git auto-commit scripts available
 - Cleanup script for Docker storage
