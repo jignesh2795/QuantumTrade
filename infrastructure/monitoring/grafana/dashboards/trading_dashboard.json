@@ -1,0 +1,115 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "QuantumTrade Dashboard",
+    "tags": ["trading", "quantumtrade"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "type": "graph",
+        "title": "Portfolio Value",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_portfolio_value",
+            "legendFormat": "Portfolio Value"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "graph",
+        "title": "Profit and Loss",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_pnl",
+            "legendFormat": "PnL"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Total Trades",
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_trades_total",
+            "legendFormat": "Total Trades"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Sharpe Ratio",
+        "gridPos": {
+          "x": 6,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_sharpe_ratio",
+            "legendFormat": "Sharpe Ratio"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Max Drawdown",
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_max_drawdown_percent",
+            "legendFormat": "Max Drawdown %"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "type": "stat",
+        "title": "Win Rate",
+        "gridPos": {
+          "x": 18,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "expr": "quantumtrade_win_rate_percent",
+            "legendFormat": "Win Rate %"
+          }
+        ]
+      }
+    ]
+  }
+}

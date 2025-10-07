@@ -1,164 +1,180 @@
-# QuantumTrade
+# QuantumTrade - AI-Driven Trading Platform
 
-QuantumTrade is a modular AI-powered trading platform built with Python (FastAPI) and React.  
-It includes multiple agents, portfolio tracking, risk assessment, and simulated trade execution.
+QuantumTrade is a fully functional AI-driven trading platform with persistent database, advanced agents, backtesting capabilities, and Docker optimization.
 
----
+## 🚀 Features
 
-## **1️⃣ Project Structure**
+-   **AI Agents**: Data, Strategy, Risk, Execution, and Performance agents
+-   **Persistent Database**: PostgreSQL with SQLAlchemy ORM and Supabase Cloud integration
+-   **Backtesting**: Comprehensive backtesting with multiple strategies
+-   **Real-time Dashboard**: Interactive frontend with live data visualization
+-   **Docker Optimization**: Multi-stage builds with caching
+-   **Security**: JWT authentication and authorization
+-   **Monitoring**: Prometheus and Grafana integration
+-   **Cloud Integration**: Supabase Cloud (Database, Auth, Real-time, Storage)
+
+## 📁 Project Structure
 
 ```
 quantumtrade/
-├── README.md
-├── docs/                    # Guides, API, architecture, deployment
-├── scripts/                 # Setup, start, cleanup scripts
-├── frontend/                # React frontend
-│   ├── src/                 # React source code (App.jsx, features)
-│   ├── public/              # Static assets
-│   └── package.json
-├── backend/                 # Python backend
-│   ├── src/                 # Core, agents, API, database, config, utils
-│   └── requirements.txt
-├── docker/                  # Dockerfiles and docker-compose
-├── logs/                    # Application logs
-├── .env.example             # Environment variables template
-├── .gitignore
-└── LICENSE
+├── backend/
+│   ├── src/
+│   │   ├── core/
+│   │   ├── agents/
+│   │   ├── api/
+│   │   ├── database/
+│   │   ├── utils/
+│   │   └── main.py
+│   ├── tests/
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── Dockerfile.dev
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── Dockerfile
+│   └── Dockerfile.dev
+├── infrastructure/
+│   ├── docker-compose.yml
+│   ├── postgres/
+│   ├── monitoring/
+│   └── ci-cd/
+├── scripts/
+│   ├── setup/
+│   ├── backtesting/
+│   └── maintenance/
+└── docs/
 ```
 
----
+## 📚 Development Stages Documentation
 
-## **2️⃣ Features**
+For detailed information about the development process, please see:
 
-- **AI Agents:** DataAgent, StrategyAgent, RiskAgent, PortfolioAgent, ExecutionAgent  
-- **Trading Signals:** Random BUY/SELL/HOLD for demo  
-- **Portfolio Tracking:** Add/list positions  
-- **Risk Assessment:** Simple % of account balance  
-- **Trade Execution:** Simulated execution  
-- **Frontend:** React pages for Signals, Portfolio, Risk  
-- **Backend API:** FastAPI endpoints for all agents  
+-   [Stage 1: Foundation & Core Implementation](docs/stages/stage1.md)
+-   [Stage 2: Supabase Integration & Advanced Features](docs/stages/stage2.md)
+-   [Stage 3: Cloud Integration with Supabase Cloud](docs/stages/stage3.md)
+-   [Stage 1 & 2 Summary](docs/stages/summary.md)
 
----
+## 🛠️ Quick Start
 
-## **3️⃣ Setup Instructions**
+### Prerequisites
 
-### **Local Setup**
+-   Docker and Docker Compose
+-   Python 3.11+
+-   Node.js 18+
+-   Supabase Cloud Account (for Stage 3)
+
+### Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone <repository-url>
+    cd quantumtrade
+    ```
+
+2. Copy and configure environment variables:
+
+    ```bash
+    cp .env.example .env
+    # Edit .env with your configuration
+    ```
+
+3. Start the application:
+    ```bash
+    docker-compose up --build
+    ```
+
+### Access Points
+
+-   **Backend API**: http://localhost:8000/docs
+-   **Frontend**: http://localhost:5173
+-   **Database**: Supabase Cloud PostgreSQL
+-   **Monitoring**: Prometheus (9090) and Grafana (3001)
+
+## 🧪 Testing
+
+Run backend tests:
 
 ```bash
-# 1. Clone repo
-git clone <repo-url> quantumtrade
-cd quantumtrade
-
-# 2. Run setup script (creates folders, installs dependencies)
-chmod +x setup_quantumtrade.sh
-./setup_quantumtrade.sh
-
-# 3. Start app (backend + frontend)
-./scripts/start.sh
+cd backend
+pytest tests/
 ```
 
-Open frontend at http://localhost:5173.
+## 📊 Backtesting
 
-### **Docker Setup**
+Run backtesting scripts:
 
 ```bash
-# Build Docker images
-docker-compose -f docker/docker-compose.yml build
+# Run single strategy backtest
+python scripts/backtesting/run_backtest.py --symbol BTC-USD --strategy moving_average
 
-# Start containers
-docker-compose -f docker/docker-compose.yml up
+# Run multiple strategies
+python scripts/backtesting/strategy_runner.py BTC-USD
+
+# Generate report
+python scripts/backtesting/report_generator.py
 ```
 
-Backend: http://localhost:8000
+## 🧹 Maintenance
 
-Frontend: http://localhost:5173
+Clean up Docker cache:
 
----
-
-## **4️⃣ Testing Features**
-
-### **Trading Signal:**
-- Frontend → "Get Signal" button
-- API: `GET /strategy/signal?symbol=BTC-USD`
-
-### **Portfolio:**
-- Frontend → "Load Positions" button
-- API:
-  ```bash
-  POST /portfolio/add?symbol=BTC-USD&size=1&price=30000
-  GET /portfolio/list
-  ```
-
-### **Risk Assessment:**
-- Frontend → "Check Risk" button
-- API: `GET /risk/assess?position_size=1000&account_balance=10000`
-
-### **Execute Trade:**
-- API: `POST /execute/trade?symbol=BTC-USD&action=BUY&size=1`
-
----
-
-## **5️⃣ Git Workflow**
-
-### **Branches:**
-- `main` → production-ready
-- `develop` → ongoing development
-- `feature/<name>` → new features
-- `bugfix/<name>` → hotfixes
-
-### **Initial Commit:**
-Already done in setup script
-
-### **Tag Releases:**
 ```bash
-git tag -a v0.1.0 -m "First working demo"
-git push origin v0.1.0
+./scripts/maintenance/cleanup_docker_cache.sh
 ```
 
----
+Backup database:
 
-## **6️⃣ Cleanup & Maintenance**
-
-### **Remove old Docker artifacts:**
 ```bash
-./scripts/cleanup.sh
+./scripts/maintenance/backup_db.sh
 ```
 
-### **Remove unused volumes/images to save disk space:**
-```bash
-docker system prune -a
-```
+## 🤖 AI Agents
 
-### **Rotate logs periodically in logs/ folder.**
+-   **Data Agent**: Collects and processes market data
+-   **Strategy Agent**: Generates trading signals (MA, RSI, MACD, Bollinger Bands)
+-   **Risk Agent**: Manages position sizing and risk controls
+-   **Execution Agent**: Simulates trade execution
+-   **Performance Agent**: Tracks and analyzes performance metrics
 
----
+## 📈 Monitoring
 
-## **7️⃣ Optional Enhancements**
+-   Prometheus metrics collection
+-   Grafana dashboards for visualization
+-   Custom trading metrics (PnL, Sharpe ratio, drawdown, etc.)
 
-- Add historical market data for better signals
-- Integrate real exchange API for live trading
-- Add unit/integration tests for all agents and API
-- Setup CI/CD for automated builds & tests
-- Add monitoring with Prometheus/Grafana
+## 🔄 CI/CD
 
----
+GitHub Actions workflow for:
 
-## **8️⃣ License**
+-   Automated testing
+-   Docker image building
+-   Deployment
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+## 📄 Documentation
 
----
+-   [Setup guides](docs/complete_setup.md)
+-   [API documentation](docs/api/)
+-   [Architecture diagrams](docs/architecture/)
+-   [Development guidelines](docs/development/)
+-   [Stage 1 & 2 documentation](docs/stages/)
+-   [Git Commit Plan](docs/git_commit_plan.md)
+-   [Git Auto Commit Scripts](docs/git_auto_commit.md)
 
-✅ This README now documents:  
+## 🤝 Contributing
 
-- Full **project structure**  
-- **Setup instructions** for local & Docker  
-- How to **test all frontend/backend features**  
-- **Git workflow**  
-- **Cleanup and maintenance**  
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a pull request
 
----
+## 📃 License
 
-If you want, I can also **update the README automatically in `setup_quantumtrade.sh`**, so after running the script the README is fully populated and ready for the repo.  
+MIT License - see LICENSE file for details.
 
-Do you want me to do that next?
+## 📞 Support
+
+For support, please open an issue on GitHub.

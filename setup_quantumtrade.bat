@@ -46,6 +46,8 @@ type nul > docs\api.md
 type nul > docs\architecture.md
 type nul > docs\deployment.md
 type nul > docs\troubleshooting.md
+type nul > docs\git_workflow.md
+type nul > docs\git_cheat_sheet.md
 
 REM Scripts
 type nul > scripts\start.sh
@@ -338,7 +340,276 @@ echo docker builder prune -a --filter "until=72h" -f >> scripts\cleanup.sh
 echo echo "✅ Cleanup complete!" >> scripts\cleanup.sh
 
 REM -------------------------------
-REM 8️⃣ Git Initialization
+REM 8️⃣ Git Workflow Documentation
+REM -------------------------------
+echo 📝 Creating Git workflow documentation...
+(
+echo # QuantumTrade Git Workflow
+echo.
+echo This document describes the Git branching strategy and workflow for the QuantumTrade project.
+echo.
+echo ## 1️⃣ Branch Structure
+echo.
+echo - **main** → Production-ready, stable code
+echo - **develop** → Integration branch, contains latest tested features
+echo - **feature/^<name^>** → New feature development
+echo - **bugfix/^<name^>** → Quick bug fixes
+echo - **release/^<version^>** → Optional pre-release branch
+echo.
+echo ## 2️⃣ Standard Workflow
+echo.
+echo ### Start a new feature
+echo.
+echo ^```bash
+echo git checkout develop
+echo git pull origin develop
+echo git checkout -b feature/add-new-agent
+echo ^```
+echo.
+echo ### Work on the feature
+echo.
+echo Add/modify code, agents, API routes, frontend components
+echo.
+echo Stage and commit changes frequently
+echo.
+echo ^```bash
+echo git add .
+echo git commit -m "Add ^<short description^>: ^<details if needed^>"
+echo ^```
+echo.
+echo Example:
+echo.
+echo ^```bash
+echo git commit -m "Add RiskAgent and risk assessment API route"
+echo ^```
+echo.
+echo ### Push feature branch to remote
+echo.
+echo ^```bash
+echo git push origin feature/add-new-agent
+echo ^```
+echo.
+echo ### Create a Pull Request ^(PR^)
+echo.
+echo - Target branch: develop
+echo - Include description and changes
+echo.
+echo ### Code Review ^& Merge
+echo.
+echo After approval, merge PR into develop
+echo.
+echo Pull latest changes:
+echo.
+echo ^```bash
+echo git checkout develop
+echo git pull origin develop
+echo ^```
+echo.
+echo ### Release / Production
+echo.
+echo ^```bash
+echo git checkout main
+echo git merge develop
+echo git push origin main
+echo git tag -a v0.2.0 -m "Release version 0.2.0"
+echo git push origin v0.2.0
+echo ^```
+echo.
+echo ## 3️⃣ Hotfixes
+echo.
+echo ### Start from main:
+echo.
+echo ^```bash
+echo git checkout main
+echo git pull origin main
+echo git checkout -b bugfix/fix-api-error
+echo ^```
+echo.
+echo ### Fix the bug, commit, push:
+echo.
+echo ^```bash
+echo git add .
+echo git commit -m "Fix: corrected API endpoint error"
+echo git push origin bugfix/fix-api-error
+echo ^```
+echo.
+echo ### Merge into main and develop:
+echo.
+echo ^```bash
+echo git checkout main
+echo git merge bugfix/fix-api-error
+echo git push origin main
+echo.
+echo git checkout develop
+echo git merge bugfix/fix-api-error
+echo git push origin develop
+echo ^```
+echo.
+echo ## 4️⃣ Tips for a clean repo
+echo.
+echo - Commit small, logical units
+echo - Keep main always deployable
+echo - Use develop for integration/testing
+echo - Tag every release version
+echo - Regularly clean up old branches:
+echo.
+echo ^```bash
+echo git branch -d feature/old-feature
+echo git push origin --delete feature/old-feature
+echo ^```
+) > docs\git_workflow.md
+
+REM -------------------------------
+REM 9️⃣ Git Cheat Sheet
+REM -------------------------------
+echo 📝 Creating Git cheat sheet...
+(
+echo # QuantumTrade Git Cheat Sheet
+echo.
+echo Quick reference for common Git operations in the QuantumTrade project.
+echo.
+echo ## 1️⃣ Initial Setup
+echo.
+echo ^```bash
+echo # Initialize repo ^(already done if setup script ran^)
+echo git init
+echo.
+echo # Add remote origin
+echo git remote add origin ^<repo-url^>
+echo.
+echo # Pull latest develop/main
+echo git checkout develop
+echo git pull origin develop
+echo ^```
+echo.
+echo ## 2️⃣ Creating a New Feature
+echo.
+echo ^```bash
+echo # Start feature branch from develop
+echo git checkout develop
+echo git pull origin develop
+echo git checkout -b feature/^<feature-name^>
+echo.
+echo # Work on feature
+echo # ...
+echo.
+echo # Stage ^& commit
+echo git add .
+echo git commit -m "Feature: ^<short description^>"
+echo.
+echo # Push feature branch
+echo git push origin feature/^<feature-name^>
+echo ^```
+echo.
+echo ## 3️⃣ Creating a Hotfix / Bugfix
+echo.
+echo ^```bash
+echo # Start hotfix from main
+echo git checkout main
+echo git pull origin main
+echo git checkout -b bugfix/^<bug-name^>
+echo.
+echo # Fix the bug
+echo # ...
+echo.
+echo # Stage ^& commit
+echo git add .
+echo git commit -m "Fix: ^<short description^>"
+echo.
+echo # Push bugfix branch
+echo git push origin bugfix/^<bug-name^>
+echo ^```
+echo.
+echo ## 4️⃣ Pull Request / Merge
+echo.
+echo ^```bash
+echo # Merge feature/bugfix into develop
+echo git checkout develop
+echo git pull origin develop
+echo git merge feature/^<feature-name^>   # or bugfix/^<bug-name^>
+echo git push origin develop
+echo.
+echo # Merge develop into main for release
+echo git checkout main
+echo git merge develop
+echo git push origin main
+echo ^```
+echo.
+echo ## 5️⃣ Tagging a Release
+echo.
+echo ^```bash
+echo git checkout main
+echo git pull origin main
+echo.
+echo # Tag release
+echo git tag -a v^<version^> -m "Release v^<version^>"
+echo git push origin v^<version^>
+echo ^```
+echo.
+echo Example:
+echo.
+echo ^```bash
+echo git tag -a v0.2.0 -m "Release v0.2.0"
+echo git push origin v0.2.0
+echo ^```
+echo.
+echo ## 6️⃣ Updating Branches
+echo.
+echo ^```bash
+echo # Update your branch with latest develop
+echo git checkout feature/^<feature-name^>
+echo git pull origin develop
+echo git merge develop
+echo ^```
+echo.
+echo ## 7️⃣ Cleaning Up Old Branches
+echo.
+echo ^```bash
+echo # Delete local branch
+echo git branch -d feature/^<old-feature^>
+echo.
+echo # Delete remote branch
+echo git push origin --delete feature/^<old-feature^>
+echo ^```
+echo.
+echo ## 8️⃣ Staging ^& Committing Tips
+echo.
+echo ^```bash
+echo # Stage specific files
+echo git add backend/src/agents/strategy_agent.py
+echo.
+echo # Commit with detailed message
+echo git commit -m "Feature: Add random strategy signals in StrategyAgent"
+echo.
+echo # Amend last commit ^(if needed^)
+echo git commit --amend -m "Updated commit message"
+echo.
+echo # Push changes
+echo git push origin ^<branch-name^>
+echo ^```
+echo.
+echo ## 9️⃣ Quick Status ^& Log
+echo.
+echo ^```bash
+echo git status           # Check current branch ^& staged files
+echo git log --oneline    # Short commit history
+echo git branch -a        # List all branches
+echo git diff             # Show unstaged changes
+echo ^```
+echo.
+echo ---
+echo.
+echo ✅ This cheat sheet gives you a full Git workflow for QuantumTrade:
+echo.
+echo - Feature development
+echo - Bug fixes / hotfixes
+echo - Merges ^& PRs
+echo - Version tagging
+echo - Cleanup ^& maintenance
+) > docs\git_cheat_sheet.md
+
+REM -------------------------------
+REM 10️⃣ Git Initialization
 REM -------------------------------
 echo 🔧 Initializing Git repository...
 git init
@@ -348,7 +619,7 @@ git add .
 git commit -m "Initial QuantumTrade project setup with backend, frontend, Docker, scripts, placeholders"
 
 REM -------------------------------
-REM 9️⃣ Install dependencies
+REM 11️⃣ Install dependencies
 REM -------------------------------
 echo 📦 Installing backend & frontend dependencies...
 cd backend
@@ -360,7 +631,7 @@ npm install
 cd ..
 
 REM -------------------------------
-REM 10️⃣ Generate comprehensive README
+REM 12️⃣ Generate comprehensive README
 REM -------------------------------
 echo 📝 Generating comprehensive README.md...
 (
@@ -466,20 +737,7 @@ echo ---
 echo.
 echo ## **5️⃣ Git Workflow**
 echo.
-echo ### **Branches:**
-echo - ^`main^` → production-ready
-echo - ^`develop^` → ongoing development
-echo - ^`feature/^<name^>^` → new features
-echo - ^`bugfix/^<name^>^` → hotfixes
-echo.
-echo ### **Initial Commit:**
-echo Already done in setup script
-echo.
-echo ### **Tag Releases:**
-echo ^```bash
-echo git tag -a v0.1.0 -m "First working demo"
-echo git push origin v0.1.0
-echo ^```
+echo See [Git Workflow](docs/git_workflow.md) for detailed instructions.
 echo.
 echo ---
 echo.

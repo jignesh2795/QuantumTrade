@@ -21,7 +21,7 @@ touch .gitignore
 touch .env.example
 
 # Docs
-for f in setup api architecture deployment troubleshooting; do
+for f in setup api architecture deployment troubleshooting git_workflow git_cheat_sheet; do
     touch docs/$f.md
 done
 
@@ -332,7 +332,276 @@ echo "✅ Cleanup complete!"
 EOL
 
 # -------------------------------
-# 8️⃣ Git Initialization
+# 8️⃣ Git Workflow Documentation
+# -------------------------------
+echo "📝 Creating Git workflow documentation..."
+cat > docs/git_workflow.md <<EOL
+# QuantumTrade Git Workflow
+
+This document describes the Git branching strategy and workflow for the QuantumTrade project.
+
+## 1️⃣ Branch Structure
+
+- **main** → Production-ready, stable code
+- **develop** → Integration branch, contains latest tested features
+- **feature/<name>** → New feature development
+- **bugfix/<name>** → Quick bug fixes
+- **release/<version>** → Optional pre-release branch
+
+## 2️⃣ Standard Workflow
+
+### Start a new feature
+
+\`\`\`bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/add-new-agent
+\`\`\`
+
+### Work on the feature
+
+Add/modify code, agents, API routes, frontend components
+
+Stage and commit changes frequently
+
+\`\`\`bash
+git add .
+git commit -m "Add <short description>: <details if needed>"
+\`\`\`
+
+Example:
+
+\`\`\`bash
+git commit -m "Add RiskAgent and risk assessment API route"
+\`\`\`
+
+### Push feature branch to remote
+
+\`\`\`bash
+git push origin feature/add-new-agent
+\`\`\`
+
+### Create a Pull Request (PR)
+
+- Target branch: develop
+- Include description and changes
+
+### Code Review & Merge
+
+After approval, merge PR into develop
+
+Pull latest changes:
+
+\`\`\`bash
+git checkout develop
+git pull origin develop
+\`\`\`
+
+### Release / Production
+
+\`\`\`bash
+git checkout main
+git merge develop
+git push origin main
+git tag -a v0.2.0 -m "Release version 0.2.0"
+git push origin v0.2.0
+\`\`\`
+
+## 3️⃣ Hotfixes
+
+### Start from main:
+
+\`\`\`bash
+git checkout main
+git pull origin main
+git checkout -b bugfix/fix-api-error
+\`\`\`
+
+### Fix the bug, commit, push:
+
+\`\`\`bash
+git add .
+git commit -m "Fix: corrected API endpoint error"
+git push origin bugfix/fix-api-error
+\`\`\`
+
+### Merge into main and develop:
+
+\`\`\`bash
+git checkout main
+git merge bugfix/fix-api-error
+git push origin main
+
+git checkout develop
+git merge bugfix/fix-api-error
+git push origin develop
+\`\`\`
+
+## 4️⃣ Tips for a clean repo
+
+- Commit small, logical units
+- Keep main always deployable
+- Use develop for integration/testing
+- Tag every release version
+- Regularly clean up old branches:
+
+\`\`\`bash
+git branch -d feature/old-feature
+git push origin --delete feature/old-feature
+\`\`\`
+EOL
+
+# -------------------------------
+# 9️⃣ Git Cheat Sheet
+# -------------------------------
+echo "📝 Creating Git cheat sheet..."
+cat > docs/git_cheat_sheet.md <<EOL
+# QuantumTrade Git Cheat Sheet
+
+Quick reference for common Git operations in the QuantumTrade project.
+
+## 1️⃣ Initial Setup
+
+\`\`\`bash
+# Initialize repo (already done if setup script ran)
+git init
+
+# Add remote origin
+git remote add origin <repo-url>
+
+# Pull latest develop/main
+git checkout develop
+git pull origin develop
+\`\`\`
+
+## 2️⃣ Creating a New Feature
+
+\`\`\`bash
+# Start feature branch from develop
+git checkout develop
+git pull origin develop
+git checkout -b feature/<feature-name>
+
+# Work on feature
+# ...
+
+# Stage & commit
+git add .
+git commit -m "Feature: <short description>"
+
+# Push feature branch
+git push origin feature/<feature-name>
+\`\`\`
+
+## 3️⃣ Creating a Hotfix / Bugfix
+
+\`\`\`bash
+# Start hotfix from main
+git checkout main
+git pull origin main
+git checkout -b bugfix/<bug-name>
+
+# Fix the bug
+# ...
+
+# Stage & commit
+git add .
+git commit -m "Fix: <short description>"
+
+# Push bugfix branch
+git push origin bugfix/<bug-name>
+\`\`\`
+
+## 4️⃣ Pull Request / Merge
+
+\`\`\`bash
+# Merge feature/bugfix into develop
+git checkout develop
+git pull origin develop
+git merge feature/<feature-name>   # or bugfix/<bug-name>
+git push origin develop
+
+# Merge develop into main for release
+git checkout main
+git merge develop
+git push origin main
+\`\`\`
+
+## 5️⃣ Tagging a Release
+
+\`\`\`bash
+git checkout main
+git pull origin main
+
+# Tag release
+git tag -a v<version> -m "Release v<version>"
+git push origin v<version>
+\`\`\`
+
+Example:
+
+\`\`\`bash
+git tag -a v0.2.0 -m "Release v0.2.0"
+git push origin v0.2.0
+\`\`\`
+
+## 6️⃣ Updating Branches
+
+\`\`\`bash
+# Update your branch with latest develop
+git checkout feature/<feature-name>
+git pull origin develop
+git merge develop
+\`\`\`
+
+## 7️⃣ Cleaning Up Old Branches
+
+\`\`\`bash
+# Delete local branch
+git branch -d feature/<old-feature>
+
+# Delete remote branch
+git push origin --delete feature/<old-feature>
+\`\`\`
+
+## 8️⃣ Staging & Committing Tips
+
+\`\`\`bash
+# Stage specific files
+git add backend/src/agents/strategy_agent.py
+
+# Commit with detailed message
+git commit -m "Feature: Add random strategy signals in StrategyAgent"
+
+# Amend last commit (if needed)
+git commit --amend -m "Updated commit message"
+
+# Push changes
+git push origin <branch-name>
+\`\`\`
+
+## 9️⃣ Quick Status & Log
+
+\`\`\`bash
+git status           # Check current branch & staged files
+git log --oneline    # Short commit history
+git branch -a        # List all branches
+git diff             # Show unstaged changes
+\`\`\`
+
+---
+
+✅ This cheat sheet gives you a full Git workflow for QuantumTrade:
+
+- Feature development
+- Bug fixes / hotfixes
+- Merges & PRs
+- Version tagging
+- Cleanup & maintenance
+EOL
+
+# -------------------------------
+# 10️⃣ Git Initialization
 # -------------------------------
 echo "🔧 Initializing Git repository..."
 git init
@@ -342,7 +611,7 @@ git add .
 git commit -m "Initial QuantumTrade project setup with backend, frontend, Docker, scripts, placeholders"
 
 # -------------------------------
-# 9️⃣ Install dependencies
+# 11️⃣ Install dependencies
 # -------------------------------
 echo "📦 Installing backend & frontend dependencies..."
 cd backend
@@ -354,7 +623,7 @@ npm install
 cd ..
 
 # -------------------------------
-# 10️⃣ Generate comprehensive README
+# 12️⃣ Generate comprehensive README
 # -------------------------------
 echo "📝 Generating comprehensive README.md..."
 cat > README.md <<EOL
@@ -525,7 +794,7 @@ Do you want me to do that next?
 EOL
 
 # -------------------------------
-# 11️⃣ Finish
+# 13️⃣ Finish
 # -------------------------------
 echo "✅ QuantumTrade fully setup!"
 echo "Run './scripts/start.sh' to start the app."

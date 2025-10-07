@@ -1,0 +1,159 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "QuantumTrade Dashboard",
+    "tags": ["trading", "portfolio", "performance", "quantumtrade"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "type": "graph",
+        "title": "Portfolio Value Over Time",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "target": "portfolio_value"
+          }
+        ],
+        "datasource": "Prometheus"
+      },
+      {
+        "id": 2,
+        "type": "graph",
+        "title": "Daily Profit & Loss",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "target": "daily_pnl"
+          }
+        ],
+        "datasource": "Prometheus"
+      },
+      {
+        "id": 3,
+        "type": "singlestat",
+        "title": "Total Return",
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "target": "total_return"
+          }
+        ],
+        "datasource": "Prometheus",
+        "format": "percent",
+        "valueFontSize": "80%"
+      },
+      {
+        "id": 4,
+        "type": "singlestat",
+        "title": "Sharpe Ratio",
+        "gridPos": {
+          "x": 6,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "target": "sharpe_ratio"
+          }
+        ],
+        "datasource": "Prometheus",
+        "valueFontSize": "80%"
+      },
+      {
+        "id": 5,
+        "type": "singlestat",
+        "title": "Maximum Drawdown",
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "target": "max_drawdown"
+          }
+        ],
+        "datasource": "Prometheus",
+        "format": "percent",
+        "valueFontSize": "80%"
+      },
+      {
+        "id": 6,
+        "type": "singlestat",
+        "title": "Win Rate",
+        "gridPos": {
+          "x": 18,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "target": "win_rate"
+          }
+        ],
+        "datasource": "Prometheus",
+        "format": "percent",
+        "valueFontSize": "80%"
+      },
+      {
+        "id": 7,
+        "type": "graph",
+        "title": "Trade Volume Over Time",
+        "gridPos": {
+          "x": 0,
+          "y": 12,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "target": "trade_volume"
+          }
+        ],
+        "datasource": "Prometheus"
+      },
+      {
+        "id": 8,
+        "type": "graph",
+        "title": "System Resources",
+        "gridPos": {
+          "x": 12,
+          "y": 12,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "target": "cpu_usage"
+          },
+          {
+            "target": "memory_usage"
+          }
+        ],
+        "datasource": "Prometheus"
+      }
+    ]
+  }
+}
