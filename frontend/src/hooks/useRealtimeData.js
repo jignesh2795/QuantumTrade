@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import { useEffect, useState } from "react";
+import { supabase } from "../supabaseClient";
 
 /**
  * Hook for handling realtime data updates
@@ -14,13 +14,13 @@ export function useRealtimeData() {
 
     // Set up realtime subscription
     const channel = supabase
-      .channel('trades')
+      .channel("trades")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'trades',
+          event: "INSERT",
+          schema: "public",
+          table: "trades",
         },
         (payload) => {
           // Add new trade to the list
@@ -41,13 +41,13 @@ export function useRealtimeData() {
       // In a real implementation, you would fetch from your backend API
       // For now, we'll use mock data
       const mockTrades = [
-        { id: 1, symbol: 'AAPL', pnl: 125.50 },
-        { id: 2, symbol: 'TSLA', pnl: -75.25 },
-        { id: 3, symbol: 'BTC', pnl: 340.75 },
+        { id: 1, symbol: "AAPL", pnl: 125.5 },
+        { id: 2, symbol: "TSLA", pnl: -75.25 },
+        { id: 3, symbol: "BTC", pnl: 340.75 },
       ];
       setTrades(mockTrades);
     } catch (error) {
-      console.error('Error fetching initial data:', error);
+      console.error("Error fetching initial data:", error);
     } finally {
       setLoading(false);
     }

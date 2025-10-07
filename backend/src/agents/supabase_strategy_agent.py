@@ -9,12 +9,18 @@ import logging
 from typing import Dict, List, Optional
 from datetime import datetime
 import math
+import pandas as pd
+import os
 
 from ..database.supabase_client import get_supabase_client
 from ..database.supabase_models import StrategyConfiguration, StrategyExecution
+from ..core.model_server import load_model, predict
 
 logger = logging.getLogger(__name__)
 supabase = get_supabase_client()
+
+
+MODEL_NAME = os.getenv("STRATEGY_MODEL", "rf_v1")
 
 
 class SupabaseStrategyAgent:
@@ -29,6 +35,11 @@ class SupabaseStrategyAgent:
         self.strategy = strategy
         self.price_history = []
         self.config = self._load_strategy_config()
+        self.model = None
+        try:
+            self.model = load_model(MODEL_NAME)
+        except Exception:
+            self.model = None
 
     def _load_strategy_config(self) -> Dict:
         """
@@ -176,23 +187,34 @@ class SupabaseStrategyAgent:
                 if len(self.price_history) > 100:
                     self.price_history = self.price_history[-100:]
 
-            # Generate signal based on strategy
-            if self.strategy == "random":
-                signal = self._random_strategy()
-            elif self.strategy == "moving_average":
-                signal = self._moving_average_strategy()
-            elif self.strategy == "rsi":
-                signal = self._rsi_strategy()
-            elif self.strategy == "breakout":
-                signal = self._breakout_strategy()
-            elif self.strategy == "mean_reversion":
-                signal = self._mean_reversion_strategy()
-            elif self.strategy == "macd":
-                signal = self._macd_strategy()
-            elif self.strategy == "bollinger_bands":
-                signal = self._bollinger_bands_strategy()
+            # Use model if available
+            if self.model and len(self.price_history) > 20:
+                # Convert price history to DataFrame for model prediction
+                prices = [p["price"] for p in self.price_history]
+                df = pd.DataFrame({"price": prices})
+                pred = predict(self.model, df)
+                if pred == 1:
+                    signal = {"action": "BUY", "size": 1.0, "confidence": 0.8}
+                else:
+                    signal = {"action": "SELL", "size": 1.0, "confidence": 0.8}
             else:
-                signal = self._random_strategy()
+                # Generate signal based on strategy
+                if self.strategy == "random":
+                    signal = self._random_strategy()
+                elif self.strategy == "moving_average":
+                    signal = self._moving_average_strategy()
+                elif self.strategy == "rsi":
+                    signal = self._rsi_strategy()
+                elif self.strategy == "breakout":
+                    signal = self._breakout_strategy()
+                elif self.strategy == "mean_reversion":
+                    signal = self._mean_reversion_strategy()
+                elif self.strategy == "macd":
+                    signal = self._macd_strategy()
+                elif self.strategy == "bollinger_bands":
+                    signal = self._bollinger_bands_strategy()
+                else:
+                    signal = self._random_strategy()
 
             # Add metadata
             signal_data = {

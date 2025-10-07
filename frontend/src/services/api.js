@@ -2,7 +2,8 @@
  * Simplified API Service for QuantumTrade Frontend
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 /**
  * Fetch trade history
@@ -15,7 +16,7 @@ export async function fetchTradeHistory() {
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching trade history:', error);
+    console.error("Error fetching trade history:", error);
     throw error;
   }
 }
@@ -26,20 +27,20 @@ export async function fetchTradeHistory() {
 export async function executeTrade(symbol, price, volume, tradeType) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/trade/execute`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ symbol, price, volume, trade_type: tradeType }),
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error('Error executing trade:', error);
+    console.error("Error executing trade:", error);
     throw error;
   }
 }
@@ -55,7 +56,7 @@ export async function fetchPortfolio() {
     }
     return await response.json();
   } catch (error) {
-    console.error('Error fetching portfolio:', error);
+    console.error("Error fetching portfolio:", error);
     throw error;
   }
 }
@@ -66,20 +67,20 @@ export async function fetchPortfolio() {
 export async function loginUser(email, password) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error('Error logging in:', error);
+    console.error("Error logging in:", error);
     throw error;
   }
 }
@@ -90,20 +91,20 @@ export async function loginUser(email, password) {
 export async function registerUser(email, password) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error('Error registering user:', error);
+    console.error("Error registering user:", error);
     throw error;
   }
 }

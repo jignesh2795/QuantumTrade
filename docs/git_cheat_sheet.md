@@ -29,7 +29,7 @@ git checkout -b feature/<feature-name>
 
 # Stage & commit
 git add .
-git commit -m "Feature: <short description>"
+git commit -m "Feature: ^<short description^>"
 
 # Push feature branch
 git push origin feature/<feature-name>
@@ -48,7 +48,7 @@ git checkout -b bugfix/<bug-name>
 
 # Stage & commit
 git add .
-git commit -m "Fix: <short description>"
+git commit -m "Fix: ^<short description^>"
 
 # Push bugfix branch
 git push origin bugfix/<bug-name>
@@ -76,7 +76,7 @@ git checkout main
 git pull origin main
 
 # Tag release
-git tag -a v<version> -m "Release v<version>"
+git tag -a v<version> -m "Release v^<version^>"
 git push origin v<version>
 ```
 

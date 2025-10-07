@@ -45,6 +45,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
 .pytest_cache/
 
@@ -56,6 +57,7 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -80,8 +82,19 @@ ipython_config.py
 # pyenv
 .python-version
 
-# celery beat schedule file
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
 celerybeat-schedule
+celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
@@ -92,8 +105,8 @@ celerybeat-schedule
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+env.bak
+venv.bak
 
 # Spyder project settings
 .spyderproject
@@ -113,40 +126,75 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Docker
-*.env
-.env.*
-!.env.example
-
-# IDEs
-.vscode/
+# IDE
 .idea/
+.vscode/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-logs/
-
-# Build outputs
-dist/
-build/
-
-# Local environment files
+# Environment files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Vite
-.vite/
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Supabase
+.supabase/
+
+# Docker
+*.log
+
+# Compiled JS
+*.js.map
+
+# Yarn
+.yarn-integrity
+
+# Database
+*.sqlite
+*.sqlite3
+
+# Temp files
+*.tmp
+*.temp
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*~
+
+# IDE specific files
+.vscode/
+.idea/

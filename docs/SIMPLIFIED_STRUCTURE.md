@@ -1,6 +1,7 @@
 # QuantumTrade Simplified Structure
 
 ## Overview
+
 This document describes the simplified structure for QuantumTrade based on the reference implementation, while maintaining all existing functionality.
 
 ## 🏗️ Final Folder Structure (Simplified)
@@ -77,6 +78,7 @@ quantumtrade/
 ## ⚙️ Key Backend Files
 
 ### backend/src/main.py
+
 ```python
 from fastapi import FastAPI
 from src.api import routes_trading, routes_auth
@@ -100,6 +102,7 @@ def root():
 ```
 
 ### backend/src/db/database.py
+
 ```python
 import os
 import asyncpg
@@ -113,6 +116,7 @@ async def init_db():
 ```
 
 ### backend/src/utils/supabase_client.py
+
 ```python
 from supabase import create_client
 import os
@@ -124,6 +128,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 ```
 
 ### backend/src/core/trading_engine.py
+
 ```python
 def run_strategy(symbol: str, data: list[float]):
     signals = []
@@ -138,6 +143,7 @@ def run_strategy(symbol: str, data: list[float]):
 ```
 
 ### backend/src/core/backtest_loader.py
+
 ```python
 import csv
 
@@ -154,6 +160,7 @@ def load_mock_data(file_path="data/mock_prices.csv"):
 ## ⚛️ Frontend Highlights
 
 ### frontend/src/services/supabase.js
+
 ```javascript
 import { createClient } from "@supabase/supabase-js";
 
@@ -164,69 +171,74 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
 ### frontend/src/components/Dashboard.jsx
+
 ```javascript
 import { useRealtimeData } from "../hooks/useRealtimeData";
 
 export default function Dashboard() {
-  const { trades } = useRealtimeData();
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Live Trading Dashboard</h1>
-      <ul>
-        {trades.map((t, i) => (
-          <li key={i}>{t.symbol} → {t.pnl}</li>
-        ))}
-      </ul>
-    </div>
-  );
+    const { trades } = useRealtimeData();
+    return (
+        <div className="p-4">
+            <h1 className="text-2xl font-bold">Live Trading Dashboard</h1>
+            <ul>
+                {trades.map((t, i) => (
+                    <li key={i}>
+                        {t.symbol} → {t.pnl}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
 ```
 
 ## 🐳 docker-compose.yml
+
 ```yaml
 version: "3.9"
 
 services:
-  backend:
-    build: ./backend
-    container_name: qt_backend
-    env_file: .env
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    volumes:
-      - ./backend:/app/backend
+    backend:
+        build: ./backend
+        container_name: qt_backend
+        env_file: .env
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
+        volumes:
+            - ./backend:/app/backend
 
-  frontend:
-    build: ./frontend
-    container_name: qt_frontend
-    env_file: .env
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
-    volumes:
-      - ./frontend:/app/frontend
+    frontend:
+        build: ./frontend
+        container_name: qt_frontend
+        env_file: .env
+        ports:
+            - "5173:5173"
+        depends_on:
+            - backend
+        volumes:
+            - ./frontend:/app/frontend
 
-  db:
-    image: postgres:15
-    container_name: qt_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: quantumtrade
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    db:
+        image: postgres:15
+        container_name: qt_db
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: quantumtrade
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
 
 volumes:
-  postgres_data:
+    postgres_data:
 ```
 
 ## 🧰 scripts/start.sh
+
 ```bash
 #!/bin/bash
 echo "🚀 Starting QuantumTrade stack..."
@@ -238,31 +250,33 @@ echo "Backend → http://localhost:8000"
 
 ## ✅ What's Ready
 
-- ✔️ Fully functional frontend + backend + database + Supabase Auth/Realtime integration
-- ✔️ Mock data loaded automatically to DB
-- ✔️ Local ↔ Supabase sync scripts
-- ✔️ Auth + Webhooks ready for expansion
-- ✔️ Can be started directly from root using Docker or scripts
+-   ✔️ Fully functional frontend + backend + database + Supabase Auth/Realtime integration
+-   ✔️ Mock data loaded automatically to DB
+-   ✔️ Local ↔ Supabase sync scripts
+-   ✔️ Auth + Webhooks ready for expansion
+-   ✔️ Can be started directly from root using Docker or scripts
 
 ## 📚 Migration Guide
 
 To migrate from the current structure to the simplified structure:
 
 1. **Backend Migration**
-   - Move core trading logic to `backend/src/core/`
-   - Consolidate API routes in `backend/src/api/`
-   - Move database code to `backend/src/db/`
-   - Simplify main entry point
+
+    - Move core trading logic to `backend/src/core/`
+    - Consolidate API routes in `backend/src/api/`
+    - Move database code to `backend/src/db/`
+    - Simplify main entry point
 
 2. **Frontend Migration**
-   - Consolidate components in `frontend/src/components/`
-   - Simplify service layer in `frontend/src/services/`
-   - Optimize hooks in `frontend/src/hooks/`
+
+    - Consolidate components in `frontend/src/components/`
+    - Simplify service layer in `frontend/src/services/`
+    - Optimize hooks in `frontend/src/hooks/`
 
 3. **Infrastructure Migration**
-   - Update docker-compose.yml
-   - Simplify scripts
-   - Update documentation
+    - Update docker-compose.yml
+    - Simplify scripts
+    - Update documentation
 
 ## 🚀 Benefits
 

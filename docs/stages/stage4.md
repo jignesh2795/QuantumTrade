@@ -4,13 +4,13 @@ This stage connects your Supabase Cloud database with a local Postgres instance 
 
 ## 🎯 Features Implemented
 
-| Feature | Status |
-|---------|--------|
-| Bi-directional Supabase ↔ Local Postgres sync | ✅ |
-| Supabase Auth integration | ✅ |
-| Webhooks for event-driven updates | ✅ |
-| Mock data generator for local backtesting | ✅ |
-| CI/CD deployment hooks | ✅ |
+| Feature                                       | Status |
+| --------------------------------------------- | ------ |
+| Bi-directional Supabase ↔ Local Postgres sync | ✅     |
+| Supabase Auth integration                     | ✅     |
+| Webhooks for event-driven updates             | ✅     |
+| Mock data generator for local backtesting     | ✅     |
+| CI/CD deployment hooks                        | ✅     |
 
 ## 🧱 1. New Folder Additions
 
@@ -66,51 +66,51 @@ Reintroduced local Postgres as a mirror DB, connected to Supabase sync logic:
 version: "3.9"
 
 services:
-  db:
-    image: postgres:15
-    container_name: quantumtrade_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: quantumtrade_local
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    db:
+        image: postgres:15
+        container_name: quantumtrade_db
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: quantumtrade_local
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
 
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: quantumtrade_backend
-    restart: always
-    depends_on:
-      - db
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    volumes:
-      - ./backend:/app
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: quantumtrade_backend
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - "8000:8000"
+        env_file:
+            - .env
+        volumes:
+            - ./backend:/app
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: quantumtrade_frontend
-    restart: always
-    depends_on:
-      - backend
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_API_URL=http://localhost:8000
-    volumes:
-      - ./frontend:/app
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: quantumtrade_frontend
+        restart: always
+        depends_on:
+            - backend
+        ports:
+            - "5173:5173"
+        environment:
+            - VITE_API_URL=http://localhost:8000
+        volumes:
+            - ./frontend:/app
 
 volumes:
-  postgres_data:
+    postgres_data:
 ```
 
 ## 🔐 4. Supabase Auth Integration
@@ -219,33 +219,34 @@ File: `.github/workflows/sync_data.yml`
 name: Sync Supabase ↔ Local Mirror
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"  # Every 6 hours
-  workflow_dispatch:
+    schedule:
+        - cron: "0 */6 * * *" # Every 6 hours
+    workflow_dispatch:
 
 jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Data Sync
-        run: |
-          docker-compose run backend python backend/src/sync/sync_service.py
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Run Data Sync
+              run: |
+                  docker-compose run backend python backend/src/sync/sync_service.py
 ```
 
 ## 🚀 9. Run & Verify
 
 Start environment:
+
 ```bash
 docker-compose up --build
 ```
 
 Verify connections:
 
-- Backend → http://localhost:8000/docs
-- Webhooks → http://localhost:8000/webhook
-- Local DB → check mock data in pgAdmin / DBeaver
-- Supabase → SQL Editor → verify synced tables
+-   Backend → http://localhost:8000/docs
+-   Webhooks → http://localhost:8000/webhook
+-   Local DB → check mock data in pgAdmin / DBeaver
+-   Supabase → SQL Editor → verify synced tables
 
 ## 🧾 10. Git Commit
 
@@ -257,18 +258,19 @@ git push origin develop
 
 ## ✅ Result After Stage 4
 
-| Component | Function |
-|-----------|----------|
-| Supabase Auth | Active JWT verification |
-| Supabase Webhooks | Event-driven data push |
-| Local Postgres Mirror | Syncs live data |
-| Mock Data Loader | Backtesting-ready dataset |
-| Automated Sync Job | Every 6 hours via GitHub Actions |
-| Full Docker Dev Loop | Works from project root |
+| Component             | Function                         |
+| --------------------- | -------------------------------- |
+| Supabase Auth         | Active JWT verification          |
+| Supabase Webhooks     | Event-driven data push           |
+| Local Postgres Mirror | Syncs live data                  |
+| Mock Data Loader      | Backtesting-ready dataset        |
+| Automated Sync Job    | Every 6 hours via GitHub Actions |
+| Full Docker Dev Loop  | Works from project root          |
 
 ## 📚 Usage Instructions
 
 ### Sync Data Manually
+
 ```bash
 # Unix/Linux/macOS
 bash scripts/sync_supabase_local.sh
@@ -278,6 +280,7 @@ scripts\sync_supabase_local.bat
 ```
 
 ### Load Mock Data
+
 ```bash
 # Unix/Linux/macOS
 bash scripts/load_mock_data.sh
@@ -287,13 +290,16 @@ scripts\load_mock_data.bat
 ```
 
 ### Schedule Automatic Sync
+
 Add to crontab (Unix/Linux):
+
 ```bash
 # Run sync every 15 minutes
 */15 * * * * cd /path/to/quantumtrade && bash scripts/sync_supabase_local.sh
 ```
 
 ### Configure Webhooks in Supabase
+
 1. Go to Supabase Dashboard
 2. Navigate to Database → Webhooks
 3. Create new webhook pointing to:

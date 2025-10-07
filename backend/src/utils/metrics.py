@@ -3,9 +3,35 @@ Metrics Module for QuantumTrade Platform
 Prometheus metrics collection and monitoring
 """
 
-from prometheus_client import Counter, Gauge, Histogram, Summary
-import time
-from typing import Optional
+from prometheus_client import (
+    Counter,
+    Histogram,
+    Gauge,
+    generate_latest,
+    CONTENT_TYPE_LATEST,
+)
+from fastapi import Response
+
+# Metrics definitions
+ticks_counter = Counter(
+    "quantumtrade_ticks_total", "Total number of market ticks received"
+)
+inference_time = Histogram(
+    "quantumtrade_inference_seconds", "Time spent on model inference"
+)
+backtest_throughput = Histogram(
+    "quantumtrade_backtest_seconds", "Time spent on backtesting"
+)
+trades_executed = Counter(
+    "quantumtrade_trades_executed_total", "Total number of trades executed"
+)
+model_accuracy = Gauge("quantumtrade_model_accuracy", "Current model accuracy")
+
+
+def get_metrics():
+    """Return Prometheus metrics as HTTP response"""
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 
 # Application metrics
 TRADES_TOTAL = Counter(

@@ -263,3 +263,41 @@ class Configuration(Base):
             "description": self.description,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
+
+
+class ModelMetadata(Base):
+    """Model representing trained model metadata"""
+
+    __tablename__ = "model_metadata"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True, index=True)
+    version = Column(String(50))
+    algorithm = Column(String(100))
+    features = Column(Text)  # JSON string of features used
+    training_start_date = Column(DateTime)
+    training_end_date = Column(DateTime)
+    accuracy = Column(Float)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    is_active = Column(Boolean, default=False)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert model metadata to dictionary"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "version": self.version,
+            "algorithm": self.algorithm,
+            "features": self.features,
+            "training_start_date": (
+                self.training_start_date.isoformat()
+                if self.training_start_date
+                else None
+            ),
+            "training_end_date": (
+                self.training_end_date.isoformat() if self.training_end_date else None
+            ),
+            "accuracy": self.accuracy,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "is_active": self.is_active,
+        }
