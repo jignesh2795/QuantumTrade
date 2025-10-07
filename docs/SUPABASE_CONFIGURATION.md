@@ -53,8 +53,10 @@ copy .env.example .env
 4. Copy the required keys from the **Project API keys** section (not the legacy keys):
     - Project URL (should be https://jstuvjquxrciaazrsedx.supabase.co)
     - **anon key** (for frontend - this is labeled as the 'public' key in the dashboard)
-    - **service_role key** (for backend - this is the secret key with full access)
+    - **service_role key** (for backend - this is the secret key with full access, same as SUPABASE_SERVICE_ROLE_KEY)
     - JWT Secret (for authentication)
+
+**Note**: In the Supabase dashboard, the 'anon key' is labeled as the 'public' key, and the 'service_role key' is the secret key that should only be used in backend applications.
 
 **Note**: In the Supabase dashboard, the 'anon key' is labeled as the 'public' key. This is the key you should use for frontend applications.
 

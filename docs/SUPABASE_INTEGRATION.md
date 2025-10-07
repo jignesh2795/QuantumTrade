@@ -62,8 +62,10 @@ To complete the configuration, you'll need:
 
 2. **Supabase API Keys** (use the new API keys, not legacy ones):
     - **anon key** (for frontend - this is labeled as the 'public' key in the dashboard)
-    - **service_role key** (for backend - this is the secret key with full access)
+    - **service_role key** (for backend - this is the secret key with full access, same as SUPABASE_SERVICE_ROLE_KEY)
     - JWT Secret (for authentication)
+
+**Note**: In the Supabase dashboard, the 'anon key' is labeled as the 'public' key, and the 'service_role key' is the secret key that should only be used in backend applications.
 
 **Note**: In the Supabase dashboard, the 'anon key' is labeled as the 'public' key. This is the key you should use for frontend applications.
 
