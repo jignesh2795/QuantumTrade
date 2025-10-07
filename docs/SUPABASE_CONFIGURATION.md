@@ -42,9 +42,11 @@ After running the script, update the following values in your `.env` file:
 3. Navigate to Settings > API
 4. Copy the required keys from the **Project API keys** section (not the legacy keys):
     - Project URL (should be https://jstuvjquxrciaazrsedx.supabase.co)
-    - **anon key** (for frontend - this is the public key)
+    - **anon key** (for frontend - this is labeled as the 'public' key in the dashboard)
     - **service_role key** (for backend - this is the secret key with full access)
     - JWT Secret (for authentication)
+
+**Note**: In the Supabase dashboard, the 'anon key' is labeled as the 'public' key. This is the key you should use for frontend applications.
 
 **Note**: Use the new API keys, not the legacy ones. The new keys provide better security and more granular permissions.
 
