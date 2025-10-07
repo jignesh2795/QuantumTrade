@@ -174,6 +174,7 @@ GitHub Actions workflow for:
 -   [Development guidelines](docs/development/)
 -   [Stage 1 & 2 documentation](docs/stages/)
 -   [Stage 3.5: Supabase Auth + CI/CD](docs/stages/stage3_5.md)
+-   [Stage 4: Automated Local Dev & Data Sync](docs/stages/stage4.md)
 -   [Git Commit Plan](docs/git_commit_plan.md)
 -   [Git Auto Commit Scripts](docs/git_auto_commit.md)
 -   [Supabase Integration](docs/SUPABASE_INTEGRATION.md)
