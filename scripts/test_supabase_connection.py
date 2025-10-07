@@ -6,10 +6,24 @@ Script to test Supabase connection using the configured environment variables
 import os
 import sys
 
-# Load environment variables
-from dotenv import load_dotenv
+# Try to load environment variables from .env file
+try:
+    from dotenv import load_dotenv
 
-load_dotenv()
+    # Load .env file from project root
+    project_root = os.path.join(os.path.dirname(__file__), "..")
+    env_path = os.path.join(project_root, ".env")
+    if os.path.exists(env_path):
+        load_dotenv(env_path)
+        print(f"✅ Loaded environment variables from {env_path}")
+    else:
+        print(f"⚠️  .env file not found at {env_path}")
+    dotenv_loaded = True
+except ImportError:
+    dotenv_loaded = False
+    print(
+        "⚠️  Warning: python-dotenv not installed. Will use system environment variables only."
+    )
 
 
 def test_supabase_connection():
@@ -73,6 +87,8 @@ def test_supabase_connection():
 
     except ImportError as e:
         print(f"⚠️  Warning: Required database modules not available - {e}")
+        print("💡 To install required packages, run:")
+        print("   pip install python-dotenv psycopg2-binary sqlalchemy")
         print(
             "✅ Environment variables are set correctly, but skipping database connection test"
         )
@@ -89,5 +105,15 @@ def test_supabase_connection():
 
 
 if __name__ == "__main__":
+    # Check if running in virtual environment
+    venv_path = os.environ.get("VIRTUAL_ENV")
+    if venv_path:
+        print(f"📍 Using virtual environment: {venv_path}")
+    else:
+        print("📍 Using system Python environment")
+
+    if not dotenv_loaded:
+        print("💡 To install python-dotenv, run: pip install python-dotenv")
+
     success = test_supabase_connection()
     sys.exit(0 if success else 1)
