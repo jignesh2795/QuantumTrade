@@ -30,6 +30,16 @@ scripts\configure_supabase.bat
 
 After running the script, update the following values in your `.env` file:
 
+**Note**: The `.env` file is intentionally ignored by Git for security reasons (credentials should never be committed to version control). If you don't have a `.env` file yet, copy the `.env.example` file to create one:
+
+```bash
+# Unix/Linux/macOS
+cp .env.example .env
+
+# Windows
+copy .env.example .env
+```
+
 1. **DATABASE_URL**: Replace `<USER>` and `<PASSWORD>` with your Supabase database credentials
 2. **SUPABASE_ANON_KEY**: Get from your Supabase project dashboard
 3. **SUPABASE_SERVICE_ROLE_KEY**: Get from your Supabase project dashboard

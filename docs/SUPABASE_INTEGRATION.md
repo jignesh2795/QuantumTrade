@@ -14,6 +14,16 @@ The QuantumTrade project currently uses a local PostgreSQL database for developm
 
 Update your `.env` file with the Supabase Cloud configuration:
 
+**Note**: The `.env` file is intentionally ignored by Git for security reasons (credentials should never be committed to version control). If you don't have a `.env` file yet, copy the `.env.example` file to create one:
+
+```bash
+# Unix/Linux/macOS
+cp .env.example .env
+
+# Windows
+copy .env.example .env
+```
+
 ```env
 # Database Configuration (Supabase Cloud)
 DATABASE_URL=postgresql://<USER>:<PASSWORD>@jstuvjquxrciaazrsedx.supabase.co:5432/postgres
