@@ -129,7 +129,7 @@ class PaperExchange(ExchangeBase):
         
         if side.lower() == "buy":
             if order_value > self.cash_balance:
-                logger.warning(f"❌ Insufficient balance for order | Need: ${order_value:.2f}, Have: ${self.cash_balance:.2f}")
+                logger.warning(f"❌ Insufficient balance for order | Need: ${order_value:,.2f}, Have: ${self.cash_balance:,.2f}")
                 return OrderResult(
                     order_id=order_id,
                     symbol=symbol,
@@ -183,8 +183,8 @@ class PaperExchange(ExchangeBase):
         self.trade_history.append(result)
         
         logger.info(
-            f"✅ Paper order executed | {side.upper()} {quantity} {symbol} @ ${execution_price:.2f} | "
-            f"Balance: ${self.cash_balance:.2f}"
+            f"✅ Paper order executed | {side.upper()} {quantity} {symbol} @ ${execution_price:,.2f} | "
+            f"Balance: ${self.cash_balance:,.2f}"
         )
         return result
     

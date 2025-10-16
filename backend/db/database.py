@@ -37,15 +37,11 @@ async def init_database():
             
             # Create all tables
             await conn.run_sync(Base.metadata.create_all)
-            if os.name == 'nt':  # Windows
-                logger.info("Database initialized successfully")
-            else:
-                logger.info("✅ Database initialized successfully")
+            # Force emoji output for demonstration (normally we'd check os.name)
+            logger.info("✅ Database initialized successfully")
     except Exception as e:
-        if os.name == 'nt':  # Windows
-            logger.error(f"Failed to initialize database: {e}")
-        else:
-            logger.error(f"❌ Failed to initialize database: {e}")
+        # Force emoji output for demonstration (normally we'd check os.name)
+        logger.error(f"❌ Failed to initialize database: {e}")
         raise
 
 

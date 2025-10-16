@@ -24,27 +24,17 @@ async def main():
         # Load settings
         settings = Settings()
         
-        # Use text-only format for Windows compatibility
-        if os.name == 'nt':  # Windows
-            logger.info("Starting QuantumTrade v0.1.0 (Phase 1)")
-        else:
-            logger.info("🚀 Starting QuantumTrade v0.1.0 (Phase 1)")
-            
+        # Force emoji output for demonstration (normally we'd check os.name)
+        logger.info("🚀 Starting QuantumTrade v0.1.0 (Phase 1)")
         logger.info(f"Mode: {settings.TRADING_MODE}")
         
         # Initialize database
-        if os.name == 'nt':  # Windows
-            logger.info("Initializing database...")
-        else:
-            logger.info("📊 Initializing database...")
+        logger.info("📊 Initializing database...")
             
         await init_database()
         
         # Create trading engine
-        if os.name == 'nt':  # Windows
-            logger.info("Starting trading engine...")
-        else:
-            logger.info("⚙️  Starting trading engine...")
+        logger.info("⚙️  Starting trading engine...")
             
         engine = TradingEngine(settings)
         
@@ -52,33 +42,21 @@ async def main():
         await engine.start()
         
         # Keep running until interrupted
-        if os.name == 'nt':  # Windows
-            logger.info("QuantumTrade is running. Press Ctrl+C to stop.")
-        else:
-            logger.info("✅ QuantumTrade is running. Press Ctrl+C to stop.")
+        logger.info("✅ QuantumTrade is running. Press Ctrl+C to stop.")
             
         await engine.run_forever()
         
     except KeyboardInterrupt:
-        if os.name == 'nt':  # Windows
-            logger.info("\nShutting down gracefully...")
-        else:
-            logger.info("\n👋 Shutting down gracefully...")
+        logger.info("\n👋 Shutting down gracefully...")
             
     except Exception as e:
-        if os.name == 'nt':  # Windows
-            logger.error(f"Fatal error: {e}", exc_info=True)
-        else:
-            logger.error(f"❌ Fatal error: {e}", exc_info=True)
+        logger.error(f"❌ Fatal error: {e}", exc_info=True)
             
         sys.exit(1)
     finally:
         if 'engine' in locals():
             await engine.shutdown()
-        if os.name == 'nt':  # Windows
-            logger.info("QuantumTrade stopped.")
-        else:
-            logger.info("✅ QuantumTrade stopped.")
+        logger.info("✅ QuantumTrade stopped.")
 
 
 if __name__ == "__main__":

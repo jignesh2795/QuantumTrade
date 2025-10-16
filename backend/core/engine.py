@@ -47,14 +47,10 @@ class TradingEngine:
         
     async def start(self):
         """Start the trading engine"""
-        if os.name == 'nt':  # Windows
-            logger.info("=" * 60)
-            logger.info("QUANTUMTRADE TRADING ENGINE")
-            logger.info("=" * 60)
-        else:
-            logger.info("=" * 60)
-            logger.info("🚀 QUANTUMTRADE TRADING ENGINE")
-            logger.info("=" * 60)
+        # Force emoji output for demonstration (normally we'd check os.name)
+        logger.info("=" * 60)
+        logger.info("🚀 QUANTUMTRADE TRADING ENGINE")
+        logger.info("=" * 60)
             
         logger.info(f"Mode: {self.settings.TRADING_MODE.upper()}")
         logger.info(f"Symbol: {self.settings.DEFAULT_SYMBOL}")
@@ -63,16 +59,10 @@ class TradingEngine:
         logger.info("=" * 60)
         
         # Connect to exchange
-        if os.name == 'nt':  # Windows
-            logger.info("Connecting to Paper Trading Exchange")
-        else:
-            logger.info("📝 Connecting to Paper Trading Exchange")
+        logger.info("📝 Connecting to Paper Trading Exchange")
             
         await self.exchange.connect()
-        if os.name == 'nt':  # Windows
-            logger.info(f"Paper exchange connected | Initial capital: ${self.settings.INITIAL_CAPITAL:,.2f}")
-        else:
-            logger.info(f"✅ Paper exchange connected | Initial capital: ${self.settings.INITIAL_CAPITAL:,.2f}")
+        logger.info(f"✅ Paper exchange connected | Initial capital: ${self.settings.INITIAL_CAPITAL:,.2f}")
             
         self.is_running = True
         
@@ -128,27 +118,17 @@ class TradingEngine:
         
         # Log current status
         logger.info("-" * 60)
-        if os.name == 'nt':  # Windows
-            logger.info(f"Market Update | {symbol} @ ${current_price:.2f}")
-        else:
-            logger.info(f"📊 Market Update | {symbol} @ ${current_price:.2f}")
-            
-        if os.name == 'nt':  # Windows
-            logger.info(f"Balance: ${balance['cash']:.2f} | Total: ${balance['total']:.2f} | P&L: ${balance['pnl']:.2f} ({balance['pnl_pct']:.2f}%)")
-        else:
-            logger.info(f"💰 Balance: ${balance['cash']:.2f} | Total: ${balance['total']:.2f} | P&L: ${balance['pnl']:.2f} ({balance['pnl_pct']:.2f}%)")
+        logger.info(f"📊 Market Update | {symbol} @ ${current_price:,.2f}")
+        logger.info(f"💰 Balance: ${balance['cash']:,.2f} | Total: ${balance['total']:,.2f} | P&L: ${balance['pnl']:.2f} ({balance['pnl_pct']:.2f}%)")
         
         if positions:
             for pos in positions:
                 logger.info(
-                    f"Position: {pos['quantity']:.6f} {pos['symbol']} @ ${pos['avg_price']:.2f} | "
+                    f"📍 Position: {pos['quantity']:.6f} {pos['symbol']} @ ${pos['avg_price']:.2f} | "
                     f"Current: ${pos['current_price']:.2f} | P&L: ${pos['pnl']:.2f} ({pos['pnl_pct']:.2f}%)"
                 )
         
-        if os.name == 'nt':  # Windows
-            logger.info(f"Signal: {signal.action.upper()} | Confidence: {signal.confidence:.2%} | {signal.reason}")
-        else:
-            logger.info(f"🎯 Signal: {signal.action.upper()} | Confidence: {signal.confidence:.2%} | {signal.reason}")
+        logger.info(f"🎯 Signal: {signal.action.upper()} | Confidence: {signal.confidence:.2%} | {signal.reason}")
         
         # Execute signal
         if signal.action == "buy" and not has_position:
@@ -165,10 +145,7 @@ class TradingEngine:
         # Round to reasonable precision
         quantity = round(quantity, 6)
         
-        if os.name == 'nt':  # Windows
-            logger.info(f"Executing BUY order | {quantity} {symbol} @ ${price:.2f}")
-        else:
-            logger.info(f"🔵 Executing BUY order | {quantity} {symbol} @ ${price:.2f}")
+        logger.info(f"🔵 Executing BUY order | {quantity} {symbol} @ ${price:,.2f}")
         
         # Place order
         result = await self.exchange.place_order(
@@ -189,25 +166,16 @@ class TradingEngine:
                 "price": price,
                 "strategy": self.strategy.name
             })
-            if os.name == 'nt':  # Windows
-                logger.info(f"BUY order filled | Order ID: {result.order_id}")
-            else:
-                logger.info(f"✅ BUY order filled | Order ID: {result.order_id}")
+            logger.info(f"✅ BUY order filled | Order ID: {result.order_id}")
         else:
-            if os.name == 'nt':  # Windows
-                logger.warning(f"BUY order {result.status} | Order ID: {result.order_id}")
-            else:
-                logger.warning(f"⚠️  BUY order {result.status} | Order ID: {result.order_id}")
+            logger.warning(f"⚠️  BUY order {result.status} | Order ID: {result.order_id}")
     
     async def execute_sell(self, symbol: str, position: dict):
         """Execute sell order"""
         quantity = position['quantity']
         price = position['current_price']
         
-        if os.name == 'nt':  # Windows
-            logger.info(f"Executing SELL order | {quantity} {symbol} @ ${price:.2f}")
-        else:
-            logger.info(f"🔴 Executing SELL order | {quantity} {symbol} @ ${price:.2f}")
+        logger.info(f"🔴 Executing SELL order | {quantity} {symbol} @ ${price:,.2f}")
         
         # Place order
         result = await self.exchange.place_order(
@@ -228,25 +196,16 @@ class TradingEngine:
                 "price": price,
                 "strategy": self.strategy.name
             })
-            if os.name == 'nt':  # Windows
-                logger.info(f"SELL order filled | Order ID: {result.order_id}")
-            else:
-                logger.info(f"✅ SELL order filled | Order ID: {result.order_id}")
+            logger.info(f"✅ SELL order filled | Order ID: {result.order_id}")
         else:
-            if os.name == 'nt':  # Windows
-                logger.warning(f"SELL order {result.status} | Order ID: {result.order_id}")
-            else:
-                logger.warning(f"⚠️  SELL order {result.status} | Order ID: {result.order_id}")
+            logger.warning(f"⚠️  SELL order {result.status} | Order ID: {result.order_id}")
     
     async def print_summary(self):
         """Print trading summary"""
         balance = await self.exchange.get_balance()
         
         logger.info("=" * 60)
-        if os.name == 'nt':  # Windows
-            logger.info("TRADING SUMMARY")
-        else:
-            logger.info("📈 TRADING SUMMARY")
+        logger.info("📈 TRADING SUMMARY")
         logger.info("=" * 60)
         logger.info(f"Initial Capital: ${self.settings.INITIAL_CAPITAL:,.2f}")
         logger.info(f"Final Balance: ${balance['total']:,.2f}")

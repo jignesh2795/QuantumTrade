@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  quantumtrade:
+    build: .
+    container_name: quantumtrade
+    env_file:
+      - .env
+    volumes:
+      - ./database:/app/database
+      - ./logs:/app/logs
+    restart: unless-stopped
+    command: python main.py
+
+  # Redis for future caching (Phase 3+)
+  redis:
+    image: redis:7-alpine
+    container_name: quantumtrade-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

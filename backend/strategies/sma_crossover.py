@@ -46,16 +46,11 @@ class SMACrossoverStrategy:
         self.last_signal = None
         self.position_open = False
         
-        if os.name == 'nt':  # Windows
-            logger.info(
-                f"SMA Crossover Strategy initialized | "
-                f"Fast: {fast_period}, Slow: {slow_period}, Symbol: {symbol}"
-            )
-        else:
-            logger.info(
-                f"📊 SMA Crossover Strategy initialized | "
-                f"Fast: {fast_period}, Slow: {slow_period}, Symbol: {symbol}"
-            )
+        # Force emoji output for demonstration (normally we'd check os.name)
+        logger.info(
+            f"📊 SMA Crossover Strategy initialized | "
+            f"Fast: {fast_period}, Slow: {slow_period}, Symbol: {symbol}"
+        )
     
     def calculate_sma(self, prices: List[float], period: int) -> float:
         """Calculate Simple Moving Average"""
@@ -124,10 +119,7 @@ class SMACrossoverStrategy:
                 timestamp=candles[-1].timestamp.isoformat()
             )
             self.last_signal = "buy"
-            if os.name == 'nt':  # Windows
-                logger.info(f"BUY Signal | {signal.reason} | Confidence: {confidence:.2%}")
-            else:
-                logger.info(f"🟢 BUY Signal | {signal.reason} | Confidence: {confidence:.2%}")
+            logger.info(f"🟢 BUY Signal | {signal.reason} | Confidence: {confidence:.2%}")
             
         elif bearish_cross and self.position_open:
             signal = Signal(
@@ -139,10 +131,7 @@ class SMACrossoverStrategy:
                 timestamp=candles[-1].timestamp.isoformat()
             )
             self.last_signal = "sell"
-            if os.name == 'nt':  # Windows
-                logger.info(f"SELL Signal | {signal.reason} | Confidence: {confidence:.2%}")
-            else:
-                logger.info(f"🔴 SELL Signal | {signal.reason} | Confidence: {confidence:.2%}")
+            logger.info(f"🔴 SELL Signal | {signal.reason} | Confidence: {confidence:.2%}")
             
         else:
             signal = Signal(
