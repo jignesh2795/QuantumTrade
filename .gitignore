@@ -264,5 +264,18 @@ yarn-debug.log*
 yarn-error.log*
 node_modules/
 
+# Next.js specific
+.next/
+out/
+build/
+!.next/static/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+coverage/
+*.pid.md
+
 # Local files
 README_local.md
