@@ -1,0 +1,27 @@
+name: quantumtrade
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pandas=2.1.4
+  - numpy=1.26.2
+  - sqlalchemy=2.0.23
+  - aiohttp=3.9.1
+  - pytest=7.4.3
+  - pip:
+    - python-dotenv==1.0.0
+    - pydantic==2.5.0
+    - pydantic-settings==2.1.0
+    - aiosqlite==0.19.0
+    - alembic==1.13.0
+    - fastapi==0.108.0
+    - uvicorn[standard]==0.25.0
+    - websockets==12.0
+    - git+https://github.com/twopirllc/pandas-ta.git
+    - pytest-asyncio==0.21.1
+    - pytest-cov==4.1.0
+    - black==23.12.1
+    - ruff==0.1.9
+    - mypy==1.7.1
