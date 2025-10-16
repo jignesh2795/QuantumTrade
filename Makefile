@@ -1,4 +1,4 @@
-.PHONY: install test run clean lint format setup test-connection test-risk help
+.PHONY: install test run clean lint format setup test-connection test-risk test-agents help
 
 install:
 	pip install -r requirements.txt
@@ -11,6 +11,9 @@ test-connection:
 
 test-risk:
 	python scripts/check_risk_limits.py
+
+test-agents:
+	python scripts/test_agents.py
 
 run:
 	python main.py
@@ -43,6 +46,7 @@ verify:
 	@echo "Running verification tests..."
 	@make test-connection
 	@make test-risk
+	@make test-agents
 	@echo "✅ All verifications passed!"
 
 help:
@@ -51,6 +55,7 @@ help:
 	@echo "  make test           - Run all tests"
 	@echo "  make test-connection - Test Binance connection"
 	@echo "  make test-risk      - Test risk management"
+	@echo "  make test-agents    - Test AI agents"
 	@echo "  make run            - Run the trading bot"
 	@echo "  make run-paper      - Run in paper mode"
 	@echo "  make run-testnet    - Run with testnet"

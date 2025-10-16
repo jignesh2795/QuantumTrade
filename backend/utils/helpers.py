@@ -69,3 +69,15 @@ def dict_to_json(data: dict) -> str:
 def json_to_dict(json_str: str) -> dict:
     """Convert JSON string to dictionary"""
     return json.loads(json_str)
+
+
+def get_market_hours() -> dict:
+    """Get market hours information"""
+    # For now, return default market hours
+    # In a real implementation, this could check exchange-specific hours
+    return {
+        "timezone": "UTC",
+        "opens": "00:00",
+        "closes": "23:59",
+        "weekends_closed": False
+    }
