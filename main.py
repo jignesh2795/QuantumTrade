@@ -1,10 +1,9 @@
 """
 QuantumTrade - Main Entry Point
-Phase 1: Minimal Viable Trader
+Phase 2: Real Trading Ready
 """
 import asyncio
 import sys
-import os
 from pathlib import Path
 
 # Add backend to path
@@ -23,40 +22,45 @@ async def main():
     try:
         # Load settings
         settings = Settings()
-        
-        # Force emoji output for demonstration (normally we'd check os.name)
-        logger.info("🚀 Starting QuantumTrade v0.1.0 (Phase 1)")
+        if sys.platform == "win32":  # Windows
+            logger.info("🚀 Starting QuantumTrade v0.2.0 (Phase 2)")
+        else:
+            logger.info("🚀 Starting QuantumTrade v0.2.0 (Phase 2)")
         logger.info(f"Mode: {settings.TRADING_MODE}")
         
         # Initialize database
         logger.info("📊 Initializing database...")
-            
         await init_database()
         
         # Create trading engine
         logger.info("⚙️  Starting trading engine...")
-            
         engine = TradingEngine(settings)
         
         # Start the engine
         await engine.start()
         
         # Keep running until interrupted
-        logger.info("✅ QuantumTrade is running. Press Ctrl+C to stop.")
-            
+        if sys.platform == "win32":  # Windows
+            logger.info("✅ QuantumTrade is running. Press Ctrl+C to stop.")
+        else:
+            logger.info("✅ QuantumTrade is running. Press Ctrl+C to stop.")
         await engine.run_forever()
         
     except KeyboardInterrupt:
-        logger.info("\n👋 Shutting down gracefully...")
-            
+        if sys.platform == "win32":  # Windows
+            logger.info("\n👋 Shutting down gracefully...")
+        else:
+            logger.info("\n👋 Shutting down gracefully...")
     except Exception as e:
         logger.error(f"❌ Fatal error: {e}", exc_info=True)
-            
         sys.exit(1)
     finally:
         if 'engine' in locals():
             await engine.shutdown()
-        logger.info("✅ QuantumTrade stopped.")
+        if sys.platform == "win32":  # Windows
+            logger.info("✅ QuantumTrade stopped.")
+        else:
+            logger.info("✅ QuantumTrade stopped.")
 
 
 if __name__ == "__main__":

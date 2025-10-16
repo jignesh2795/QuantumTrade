@@ -1,13 +1,25 @@
-.PHONY: install test run clean lint format
+.PHONY: install test run clean lint format setup test-connection test-risk help
 
 install:
 	pip install -r requirements.txt
 
 test:
-	pytest tests/ -v
+	pytest tests/ -v --cov=backend
+
+test-connection:
+	python scripts/test_binance_connection.py
+
+test-risk:
+	python scripts/check_risk_limits.py
 
 run:
 	python main.py
+
+run-paper:
+	TRADING_MODE=paper python main.py
+
+run-testnet:
+	TRADING_MODE=live USE_TESTNET=true python main.py
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
@@ -27,12 +39,23 @@ setup:
 	chmod +x scripts/setup.sh
 	./scripts/setup.sh
 
+verify:
+	@echo "Running verification tests..."
+	@make test-connection
+	@make test-risk
+	@echo "✅ All verifications passed!"
+
 help:
 	@echo "Available commands:"
-	@echo "  make install  - Install dependencies"
-	@echo "  make test     - Run tests"
-	@echo "  make run      - Run the trading bot"
-	@echo "  make clean    - Clean cache files"
-	@echo "  make lint     - Lint code with ruff"
-	@echo "  make format   - Format code with black"
-	@echo "  make setup    - Initial setup"
+	@echo "  make install         - Install dependencies"
+	@echo "  make test           - Run all tests"
+	@echo "  make test-connection - Test Binance connection"
+	@echo "  make test-risk      - Test risk management"
+	@echo "  make run            - Run the trading bot"
+	@echo "  make run-paper      - Run in paper mode"
+	@echo "  make run-testnet    - Run with testnet"
+	@echo "  make clean          - Clean cache files"
+	@echo "  make lint           - Lint code with ruff"
+	@echo "  make format         - Format code with black"
+	@echo "  make setup          - Initial setup"
+	@echo "  make verify         - Run all verification tests"
