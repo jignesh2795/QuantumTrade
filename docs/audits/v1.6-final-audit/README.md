@@ -18,7 +18,7 @@ The audited source snapshot identifies itself as:
 
 The final audit deliverable reviewed locally is `QuantumTrade_v1_6_Final_Audit_Package.zip`, 3,452,555 bytes, SHA-256:
 
-`3bb8de6cd5479b7d6a7630859af37e777ed0dccefcdba299743f6c27492a461`
+`3bb8de6cd5479b7d6a7630859af37e777ed0dccefcd7ba299743f6c27492a461`
 
 It contains 1,454 ZIP entries (1,059 files and 395 directories). ZIP integrity passed. The included project-file manifest records 595 unique paths; all 595 recorded SHA-256 values matched the package contents. A final Markdown-link scan covered 50 Markdown files and found zero broken local Markdown links.
 
